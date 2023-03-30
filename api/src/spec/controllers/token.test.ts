@@ -26,4 +26,23 @@ describe("/tokens", () => {
     expect(response.body.token).not.toEqual(undefined);
   });
 
+  it("does NOT return a token when password is invalid", async () => {
+    let response = await request(app)
+      .post("/tokens")
+      .send({ email: "robbie@email.com", password: "1password" });
+    expect(response.status).toEqual(401);
+    expect(response.body.token).toEqual(undefined);
+    expect(response.body.message).toEqual(
+      "auth error - passwords do not match"
+    );
+  });
+
+  it("does NOT return a token when email is invalid", async () => {
+    let response = await request(app)
+      .post("/tokens")
+      .send({ email: "eibbor@email.com", password: "password1" });
+    expect(response.status).toEqual(401);
+    expect(response.body.token).toEqual(undefined);
+    expect(response.body.message).toEqual("auth error - user does not exist");
+  });
 });
