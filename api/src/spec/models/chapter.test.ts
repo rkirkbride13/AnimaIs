@@ -19,4 +19,10 @@ describe("Chapter", () => {
     expect(chapter.title).toEqual("The Dog");
     expect(chapter.content).toEqual(["The dog is humankinds best friend"]);
   });
+
+  it("chapters are saved to the database and can be accessed", async () => {
+    const chapters = await Chapter.find();
+    expect(chapters.length).toEqual(1);
+    expect(chapters[0].title).toEqual("The Dog");
+  });
 });
