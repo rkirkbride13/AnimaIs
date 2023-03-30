@@ -30,7 +30,6 @@ describe("/chapters", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           title: "The Dog",
-          content: "Stuff about dogs",
         });
 
       expect(response.status).toEqual(200);
