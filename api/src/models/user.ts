@@ -7,7 +7,7 @@ export interface IUser extends Document {
 }
 
 const UserSchema: Schema = new Schema({
-  name: { type: String, required: true } as any,
+  name: { type: String, required: true },
   email: {
     type: String,
     required: true,
@@ -15,7 +15,7 @@ const UserSchema: Schema = new Schema({
     dropDups: true,
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
   } as any,
-  password: { type: String, required: true } as any,
+  password: { type: String, required: true },
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);
