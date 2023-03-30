@@ -9,8 +9,8 @@ describe("/users", () => {
     await User.deleteMany({});
   });
 
-  describe("post when email and password are provided", () => {
-    it("gives response code 200 and creates a user", async () => {
+  describe("POST", () => {
+    it("gives response code 200 and creates a user with correct credentials", async () => {
       let response = await request(app).post("/users").send({
         name: "Robbie",
         email: "robbie@email.com",
@@ -36,6 +36,33 @@ describe("/users", () => {
       bcrypt
         .compare("password", newUser.password)
         .then((res) => expect(res).toBe(true));
+    });
+
+    it("gives response code 400 and does NOT create user when name missing", async () => {
+      let response = await request(app)
+        .post("/users")
+        .send({ email: "robbie@email.com", password: "password1" });
+      expect(response.statusCode).toBe(400);
+      let users = await User.find();
+      expect(users.length).toEqual(0);
+    });
+
+    it("gives response code 400 and does NOT create user when email missing", async () => {
+      let response = await request(app)
+        .post("/users")
+        .send({ name: "Robbie", password: "password1" });
+      expect(response.statusCode).toBe(400);
+      let users = await User.find();
+      expect(users.length).toEqual(0);
+    });
+
+    it("gives response code 400 and does NOT create user when password missing", async () => {
+      let response = await request(app)
+        .post("/users")
+        .send({ name: "Robbie", email: "robbie@email.com" });
+      expect(response.statusCode).toBe(400);
+      let users = await User.find();
+      expect(users.length).toEqual(0);
     });
   });
 });
