@@ -64,5 +64,36 @@ describe("/users", () => {
       let users = await User.find();
       expect(users.length).toEqual(0);
     });
+
+    it("gives response code 400 and does NOT create user when email is invalid", async () => {
+      let response = await request(app)
+        .post("/users")
+        .send({
+          name: "Robbie",
+          email: "robbieemail.com",
+          password: "password1",
+        });
+      expect(response.statusCode).toBe(400);
+      let users = await User.find();
+      expect(users.length).toEqual(0);
+    });
+
+    it("gives response code 400 and does NOT create user when email already exists", async () => {
+      await User.create({
+        name: "Robbie",
+        email: "robbie@email.com",
+        password: "password1",
+      });
+      let response = await request(app)
+        .post("/users")
+        .send({
+          name: "Robbie New",
+          email: "robbie@email.com",
+          password: "password100",
+        });
+      expect(response.statusCode).toBe(400);
+      let users = await User.find();
+      expect(users.length).toEqual(1);
+    });
   });
 });
