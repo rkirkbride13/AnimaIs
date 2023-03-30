@@ -3,7 +3,7 @@ import User from "../models/user";
 import bcrypt from "bcrypt";
 
 const UsersController = {
-  Create: async (req: Request, res: Response): Promise<void> => {
+  Create: async (req: Request, res: Response) => {
     let encryptedPassword;
     try {
       encryptedPassword = await bcrypt

@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import { config } from "dotenv";
 import usersRouter from "./routes/users";
+import tokensRouter from "./routes/tokens";
 
 config({ path: "./config.env" });
 const app: Express = express();
@@ -10,5 +11,6 @@ app.use(express.json());
 
 // App routes
 app.use("/users", usersRouter);
+app.use("/tokens", tokensRouter);
 
 export { app };
