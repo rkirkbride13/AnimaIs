@@ -32,6 +32,6 @@ const tokenChecker = (req: Request, res: Response, next: NextFunction) => {
 // App routes
 app.use("/users", usersRouter);
 app.use("/tokens", tokensRouter);
-app.use("/chapter", tokenChecker, chaptersRouter);
+app.use("/chapters", tokenChecker, chaptersRouter);
 
 export { app };

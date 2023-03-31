@@ -10,7 +10,7 @@ const ChaptersController = {
     const openai = new OpenAIApi(configuration);
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Write content for a book chapter titled" ${req.body.title}. Do not include the chapter title`,
+      prompt: `Write content for a book chapter titled "${req.body.title}". Do not include the chapter title`,
       max_tokens: 2048,
       temperature: 0,
     });
