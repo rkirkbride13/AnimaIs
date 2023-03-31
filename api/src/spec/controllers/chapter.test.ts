@@ -6,17 +6,17 @@ import Token from "../../models/token";
 import Chapter from "../../models/chapter";
 
 describe("ChaptersController", () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+    await Chapter.deleteMany({});
+  });
+
+  afterAll(async () => {
+    await User.deleteMany({});
+    await Chapter.deleteMany({});
+  });
+
   describe("CreateContent", () => {
-    beforeEach(async () => {
-      await User.deleteMany({});
-      await Chapter.deleteMany({});
-    });
-
-    afterAll(async () => {
-      await User.deleteMany({});
-      await Chapter.deleteMany({});
-    });
-
     it("should create a new chapter and return status 200 with valid input", async () => {
       let user = new User({
         name: "Test",

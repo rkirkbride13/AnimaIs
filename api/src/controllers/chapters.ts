@@ -38,6 +38,14 @@ const ChaptersController = {
       res.status(400).json({ message: "Chapters not found" });
     }
   },
+  DeleteChapter: async (req: Request, res: Response) => {
+    try {
+      await Chapter.findOneAndDelete({ _id: req.get("chapter_id") });
+      res.status(200).json({ message: "DELETED" });
+    } catch (err) {
+      res.status(400).json({ message: "Chapter not deleted" });
+    }
+  },
 };
 
 export default ChaptersController;
