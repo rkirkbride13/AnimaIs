@@ -29,6 +29,15 @@ const ChaptersController = {
       res.status(400).json({ message: "Chapter not created" });
     }
   },
+  FindByUser: async (req: Request, res: Response) => {
+    try {
+      const chapters = await Chapter.find({ user_id: req.body.user_id })
+      res.status(200).json({ chapters })
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: "Chapters not found" });
+    }
+  },
 };
 
 export default ChaptersController;
