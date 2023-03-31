@@ -123,4 +123,56 @@ describe("ChaptersController", () => {
       expect(response.status).toEqual(400);
     });
   });
+
+  describe("DeleteChapter", () => {
+    it("responds with a status code 200 and deletes chapter", async () => {
+      let user = new User({
+        name: "Robbie",
+        email: "robbie@email.com",
+        password: "password1",
+      });
+      await user.save();
+      let token = await Token.jsonwebtoken(user.id);
+      await request(app)
+        .post("/chapters")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          user_id: "user123",
+          title: "Chapter 1",
+        });
+      let chapters = await Chapter.find();
+      expect(chapters.length).toEqual(1);
+      const chapter_id = chapters[0]._id;
+
+      let response_2 = await request(app)
+        .delete("/chapters")
+        .set("Authorization", `Bearer ${token}`)
+        .set({ chapter_id: chapter_id })
+        .send();
+
+      let updatedChapters = await Chapter.find();
+      expect(response_2.statusCode).toEqual(200);
+      expect(updatedChapters.length).toEqual(0);
+    });
+
+    it("should return status 400 if token not found", async () => {
+      let user = new User({
+        name: "Robbie",
+        email: "robbie@email.com",
+        password: "password1",
+      });
+      await user.save();
+      let token = await Token.jsonwebtoken(user.id);
+      await request(app)
+        .post("/acts")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          user_id: "user123",
+          title: "Chapter 1",
+        });
+
+      let response = await request(app).delete("/chapters").send();
+      expect(response.status).toEqual(400);
+    });
+  });
 });
