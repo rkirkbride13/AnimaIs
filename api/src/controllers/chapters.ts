@@ -46,6 +46,30 @@ const ChaptersController = {
       res.status(400).json({ message: "Chapter not deleted" });
     }
   },
+  UpdateChapter: async (req: Request, res: Response) => {
+    const { Configuration, OpenAIApi } = require("openai");
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `Continue writing this chapter: ${req.body.content}`,
+      max_tokens: 2048,
+      temperature: 0,
+    });
+
+    const content = response.data.choices[0].text;
+    try {
+      await Chapter.updateOne(
+        { _id: req.get("chapter_id") },
+        { $addToSet: { content: content } }
+      );
+      res.status(200).json({ message: "UPDATED" });
+    } catch (error) {
+      res.status(400).json({ message: "Chapter not updated" });
+    }
+  },
 };
 
 export default ChaptersController;

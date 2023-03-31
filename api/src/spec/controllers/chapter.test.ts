@@ -175,4 +175,75 @@ describe("ChaptersController", () => {
       expect(response.status).toEqual(400);
     });
   });
+
+  describe("UpdateChapter", () => {
+    // it("responds with a status code 200 and updates chapter", async () => {
+    //   let user = new User({
+    //     name: "Robbie",
+    //     email: "robbie@email.com",
+    //     password: "password1",
+    //   });
+    //   await user.save();
+    //   let token = await Token.jsonwebtoken(user.id);
+    //   await request(app)
+    //     .post("/chapters")
+    //     .set("Authorization", `Bearer ${token}`)
+    //     .send({
+    //       user_id: "user123",
+    //       title: "Chapter 1",
+    //     });
+    //   let chapters = await Chapter.find();
+    //   expect(chapters.length).toEqual(1);
+    //   const chapter_id = chapters[0]._id;
+
+    //   const mockResponse = {
+    //     data: {
+    //       choices: [{ text: "It has been extended by calling patch" }],
+    //     },
+    //   };
+    //   jest.mock("openai", () => ({
+    //     Configuration: jest.fn(),
+    //     OpenAIApi: jest.fn(() => ({
+    //       createCompletion: jest.fn(() => Promise.resolve(mockResponse)),
+    //     })),
+    //   }));
+
+    //   const res = await request(app)
+    //     .patch("/chapters")
+    //     .set("Authorization", `Bearer ${token}`)
+    //     .set({ chapter_id: chapter_id })
+    //     .send({
+    //       user_id: "user123",
+    //       content: "This is the chapter content.",
+    //     });
+
+    //   expect(res.status).toEqual(200);
+    //   expect(res.body).toEqual({ message: "UPDATED" });
+
+    //   let chaptersUpdated = await Chapter.find();
+    //   expect(chaptersUpdated).toHaveLength(1);
+    //   expect(chaptersUpdated[0].title).toBe("Chapter 1");
+    //   expect(chaptersUpdated[0].content).toEqual(["This is the chapter content.", mockResponse.data.choices[0].text]);
+    // });
+
+    it("should return status 400 if token not found", async () => {
+      let user = new User({
+        name: "Robbie",
+        email: "robbie@email.com",
+        password: "password1",
+      });
+      await user.save();
+      let token = await Token.jsonwebtoken(user.id);
+      await request(app)
+        .post("/acts")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          user_id: "user123",
+          title: "Chapter 1",
+        });
+
+      let response = await request(app).patch("/chapters").send();
+      expect(response.status).toEqual(400);
+    });
+  });
 });
