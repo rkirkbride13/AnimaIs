@@ -75,4 +75,52 @@ describe("ChaptersController", () => {
       expect(chapters).toHaveLength(0);
     });
   });
+
+  describe("FindByUser", () => {
+    it("responds with a status code 200, and returns all users chapters", async () => {
+      let user = new User({
+        name: "Test",
+        email: "test@email.com",
+        password: "password",
+      });
+      await user.save();
+      let token = await Token.jsonwebtoken(user.id);
+
+      await request(app)
+        .post("/chapters")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          user_id: "user123",
+          title: "Chapter 1",
+        });
+
+      let res = await request(app)
+        .get("/chapters")
+        .set("Authorization", `Bearer ${token}`)
+        .send();
+
+      expect(res.status).toEqual(200);
+      expect(res.body.chapters[0].title).toEqual("Chapter 1");
+    });
+
+    it("should return status 400 if token not found", async () => {
+      let user = new User({
+        name: "Robbie",
+        email: "robbie@email.com",
+        password: "password1",
+      });
+      await user.save();
+      let token = await Token.jsonwebtoken(user.id);
+      await request(app)
+        .post("/acts")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          user_id: "user123",
+          title: "Chapter 1",
+        });
+
+      let response = await request(app).get("/chapters").send();
+      expect(response.status).toEqual(400);
+    });
+  });
 });
