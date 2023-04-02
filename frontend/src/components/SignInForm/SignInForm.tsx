@@ -120,7 +120,7 @@ const SignInForm = ({ navigate }: SignInFormInt): ReactElement => {
             <div>
               <button
                 type="submit"
-                data-cy="signup-submit"
+                data-cy="signin-submit"
                 className="group relative flex w-full justify-center rounded-md bg-teal-300 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">

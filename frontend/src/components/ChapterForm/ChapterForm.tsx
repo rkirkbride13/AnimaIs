@@ -23,7 +23,7 @@ const ChapterForm = ({
 
   const [title, setTitle] = useState<string>("");
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (!token) {
@@ -59,35 +59,45 @@ const ChapterForm = ({
 
   return (
     <>
-      <div className="form-page">
-        <br></br>
-        <div className="header">
-          What would you like this chapter to be about?
-        </div>
-        <br></br>
-        <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <label htmlFor="title">Title: </label>
-            <input
-              className="input"
-              placeholder="Chapter title"
-              id="title"
-              data-cy="title"
-              type="text"
-              style={{ width: "120px" }}
-              value={title}
-              onChange={handleChange(setTitle)}
-            />
+      <div className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+            <div className="max-w-xl lg:max-w-lg">
+              <h2 className="text-3xl font-bold tracking-tight text-teal-500 sm:text-4xl">
+                Generate a chapter.
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-teal-500">
+                Fill the box below with a title and hit generate to see your
+                chapter come to life.
+              </p>
+              <div className="mt-6 flex max-w-md gap-x-4">
+                <label htmlFor="title" className="sr-only">
+                  Title
+                </label>
+                <input
+                  id="title"
+                  name="title"
+                  type="title"
+                  data-cy="title"
+                  autoComplete="title"
+                  required
+                  className="min-w-0 flex-auto rounded-md border-2 bg-white/5 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  placeholder="Enter your title"
+                  value={title}
+                  onChange={handleChange(setTitle)}
+                />
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  data-cy="submit-chapter"
+                  className="flex-none rounded-md bg-teal-300 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                >
+                  Generate
+                </button>
+              </div>
+            </div>
           </div>
-          <input
-            className="save"
-            id="submit"
-            data-cy="submit-chapter"
-            type="submit"
-            value="Save"
-            style={{ marginLeft: 125 }}
-          />
-        </form>
+        </div>
       </div>
     </>
   );
