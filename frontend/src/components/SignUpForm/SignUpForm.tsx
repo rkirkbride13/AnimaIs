@@ -51,9 +51,15 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
 
   const handleError = () => {
     if (emailExists) {
-      return <div className="text-red-600 text-base font-semibold">Email already exists</div>;
+      return (
+        <div className="text-red-600 text-base font-semibold">
+          Email already exists
+        </div>
+      );
     } else if (emptyField) {
-      return <div className="text-red-600 text-base font-semibold">{emptyField}</div>;
+      return (
+        <div className="text-red-600 text-base font-semibold">{emptyField}</div>
+      );
     } else {
       return <></>;
     }
@@ -65,7 +71,7 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
         <div className="w-full max-w-md space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-teal-500">
-              Sign in to your account
+              Sign up a new account
             </h2>
           </div>
           <form
@@ -89,6 +95,7 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Username"
+                  value={name}
                   onChange={handleChange(setName)}
                 />
               </div>
@@ -105,6 +112,7 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Email address"
+                  value={email}
                   onChange={handleChange(setEmail)}
                 />
               </div>
@@ -121,6 +129,7 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
                   required
                   className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Password"
+                  value={password}
                   onChange={handleChange(setPassword)}
                 />
               </div>
