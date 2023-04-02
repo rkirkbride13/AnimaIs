@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavigateFunction } from "react-router";
 import serverURL from "../../serverURL";
 import ChapterForm from "../ChapterForm/ChapterForm";
+import Chapter from "../Chapter/Chapter";
 
 interface ChaptersInt {
   navigate: NavigateFunction;
@@ -33,7 +34,7 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
         {chapters.map((chapter) => {
           return (
             <>
-              <div className="chapter-block">
+              <div>
                 <div data-cy="chapter">{chapter.title}</div>
               </div>
             </>
@@ -45,14 +46,23 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
 
   return (
     <>
-      <div className="main-container">
-        <div className="chapters-container">
+      <div>
+        <div>
           <ChapterForm
             navigate={navigate}
             setChapters={setChapters}
             token={token}
           />
-          <div>{mapChapters()}</div>
+          <div>
+            {chapters.map((chapter) => (
+              <Chapter
+                key={chapter._id}
+                chapter={chapter}
+                token={token}
+                setChapters={setChapters}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>
