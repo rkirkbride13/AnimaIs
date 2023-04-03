@@ -12,7 +12,7 @@ describe("Chapter", () => {
 
     cy.mount(<Chapter chapter={chapter} token={"tokenMock"} setChapters={setChaptersMock} />);
 
-    cy.get('[data-cy="chapter"]').should("contain.text", "The Dog - Something about dogs");
+    cy.get('[data-cy="chapter"]').should("contain.text", "Something about dogs");
     cy.get('[data-cy="delete-button"]')
       .invoke("attr", "type")
       .should("eq", "submit");

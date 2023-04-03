@@ -28,41 +28,23 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
     }
   }, []);
 
-  const mapChapters = () => {
-    return (
-      <>
-        {chapters.map((chapter) => {
-          return (
-            <>
-              <div>
-                <div data-cy="chapter">{chapter.title}</div>
-              </div>
-            </>
-          );
-        })}
-      </>
-    );
-  };
-
   return (
     <>
       <div>
-        <div>
-          <ChapterForm
-            navigate={navigate}
-            setChapters={setChapters}
-            token={token}
-          />
-          <div>
-            {chapters.map((chapter) => (
-              <Chapter
-                key={chapter._id}
-                chapter={chapter}
-                token={token}
-                setChapters={setChapters}
-              />
-            ))}
-          </div>
+        <ChapterForm
+          navigate={navigate}
+          setChapters={setChapters}
+          token={token}
+        />
+        <div className="mx-20">
+          {chapters.map((chapter) => (
+            <Chapter
+              key={chapter._id}
+              chapter={chapter}
+              token={token}
+              setChapters={setChapters}
+            />
+          ))}
         </div>
       </div>
     </>
