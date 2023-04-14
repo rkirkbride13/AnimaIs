@@ -10,9 +10,19 @@ describe("Chapter", () => {
   it("renders with a chapter and delete button", () => {
     let setChaptersMock = cy.stub();
 
-    cy.mount(<Chapter chapter={chapter} token={"tokenMock"} setChapters={setChaptersMock} />);
+    cy.mount(
+      <Chapter
+        chapter={chapter}
+        token={"tokenMock"}
+        setChapters={setChaptersMock}
+        loading={false}
+      />
+    );
 
-    cy.get('[data-cy="chapter"]').should("contain.text", "Something about dogs");
+    cy.get('[data-cy="chapter"]').should(
+      "contain.text",
+      "Something about dogs"
+    );
     cy.get('[data-cy="delete-button"]')
       .invoke("attr", "type")
       .should("eq", "submit");
@@ -21,8 +31,17 @@ describe("Chapter", () => {
   it("sends a DELETE request and can delete a chapter", () => {
     let setChaptersMock = cy.stub();
 
-    cy.mount(<Chapter chapter={chapter} token={"tokenMock"} setChapters={setChaptersMock} />);
-    cy.intercept("DELETE", "chapters", { message: "DELETED" }).as("deleteChapter");
+    cy.mount(
+      <Chapter
+        chapter={chapter}
+        token={"tokenMock"}
+        setChapters={setChaptersMock}
+        loading={false}
+      />
+    );
+    cy.intercept("DELETE", "chapters", { message: "DELETED" }).as(
+      "deleteChapter"
+    );
 
     cy.get('[data-cy="delete-button"]').click();
     cy.wait("@deleteChapter").then((interception) => {

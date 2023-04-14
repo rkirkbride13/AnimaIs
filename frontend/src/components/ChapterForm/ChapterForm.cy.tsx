@@ -5,11 +5,13 @@ const navigate = () => {};
 describe("Chapter Form", () => {
   it("sends a request when the form is submitted", () => {
     let setChaptersMock = cy.stub();
+    let setLoadingMock = cy.stub();
     cy.mount(
       <ChapterForm
         navigate={navigate}
         token={"tokenMock"}
         setChapters={setChaptersMock}
+        setLoading={setLoadingMock}
       />
     );
 

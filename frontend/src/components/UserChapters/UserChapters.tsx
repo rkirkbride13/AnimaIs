@@ -11,6 +11,7 @@ interface ChaptersInt {
 const UserChapters = ({ navigate }: ChaptersInt) => {
   const [chapters, setChapters] = useState<Array<any>>([]);
   const [token] = useState<string | null>(window.localStorage.getItem("token"));
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (token) {
@@ -35,6 +36,7 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
           navigate={navigate}
           setChapters={setChapters}
           token={token}
+          setLoading={setLoading}
         />
         <div className="mx-20">
           {chapters.map((chapter) => (
@@ -43,6 +45,7 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
               chapter={chapter}
               token={token}
               setChapters={setChapters}
+              loading={loading}
             />
           ))}
         </div>

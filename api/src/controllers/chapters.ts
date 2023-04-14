@@ -11,9 +11,9 @@ const ChaptersController = {
       temperature: 0,
     });
 
-    const content = response.data.choices[0].text;
-    const title = req.body.title;
-    const user_id = req.body.user_id;
+    const content: string = response.data.choices[0].text;
+    const title: string = req.body.title;
+    const user_id: string = req.body.user_id;
 
     const chapter: IChapter = new Chapter({ user_id, title, content });
 
@@ -51,7 +51,7 @@ const ChaptersController = {
       temperature: 0,
     });
 
-    const content = response.data.choices[0].text;
+    const content: string = response.data.choices[0].text;
     try {
       await Chapter.updateOne(
         { _id: req.get("chapter_id") },

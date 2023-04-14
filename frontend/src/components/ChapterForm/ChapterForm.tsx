@@ -6,12 +6,14 @@ interface ChapterFormInt {
   navigate: NavigateFunction;
   token: string | null;
   setChapters: React.Dispatch<React.SetStateAction<any[]>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChapterForm = ({
   navigate,
   token,
   setChapters,
+  setLoading,
 }: ChapterFormInt): ReactElement => {
   const handleChange = (
     setFunction: React.Dispatch<React.SetStateAction<string>>
@@ -25,6 +27,7 @@ const ChapterForm = ({
 
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setLoading(true);
 
     if (!token) {
       navigate("/");
@@ -48,9 +51,11 @@ const ChapterForm = ({
           })
             .then((response) => response.json())
             .then(async (data) => {
+              setLoading(false);
               setChapters(data.chapters);
             });
         } else {
+          setLoading(false);
           console.log("No luck");
         }
       });
