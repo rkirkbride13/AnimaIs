@@ -3,11 +3,7 @@ import Chapter, { IChapter } from "../models/chapter";
 
 const ChaptersController = {
   CreateContent: async (req: Request, res: Response) => {
-    const { Configuration, OpenAIApi } = require("openai");
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
+    const openai = connectToAPI();
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `Write content for a book chapter titled "${req.body.title}"`,
@@ -31,8 +27,8 @@ const ChaptersController = {
   },
   FindByUser: async (req: Request, res: Response) => {
     try {
-      const chapters = await Chapter.find({ user_id: req.body.user_id })
-      res.status(200).json({ chapters })
+      const chapters = await Chapter.find({ user_id: req.body.user_id });
+      res.status(200).json({ chapters });
     } catch (err) {
       console.error(err);
       res.status(400).json({ message: "Chapters not found" });
@@ -47,11 +43,7 @@ const ChaptersController = {
     }
   },
   UpdateChapter: async (req: Request, res: Response) => {
-    const { Configuration, OpenAIApi } = require("openai");
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
+    const openai = connectToAPI();
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `Continue writing this chapter: ${req.body.content}`,
@@ -70,6 +62,14 @@ const ChaptersController = {
       res.status(400).json({ message: "Chapter not updated" });
     }
   },
+};
+
+const connectToAPI = () => {
+  const { Configuration, OpenAIApi } = require("openai");
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  return new OpenAIApi(configuration);
 };
 
 export default ChaptersController;
