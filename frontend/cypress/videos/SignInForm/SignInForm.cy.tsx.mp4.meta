@@ -1,0 +1,6 @@
+;FFMETADATA1
+[CHAPTER]
+TIMEBASE=1/1000
+START=1706
+END=3572
+title=Signing in calls the /tokens endpoint

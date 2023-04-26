@@ -2,6 +2,7 @@ import React, { useState, FormEvent, ChangeEvent, ReactElement } from "react";
 import { NavigateFunction } from "react-router";
 import serverURL from "../../serverURL";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import NavBar from "../navbar/navbar";
 
 interface SignUpFormInt {
   navigate: NavigateFunction;
@@ -67,7 +68,8 @@ const SignUpForm = ({ navigate }: SignUpFormInt): ReactElement => {
 
   return (
     <>
-      <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <NavBar links={[]} />
+      <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8 my-10">
         <div className="w-full max-w-md space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-teal-500">
