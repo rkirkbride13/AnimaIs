@@ -18,16 +18,21 @@ const ChaptersController = {
         const openai = connectToAPI();
         const response = yield openai.createCompletion({
             model: "text-davinci-003",
-            prompt: `Write content for a book chapter titled "${req.body.title}"`,
+            prompt: `Write content for a book chapter titled "The ${req.body.animal}". The book is aimed at ${req.body.age} year old children. Include a list of ${req.body.facts} facts.`,
             max_tokens: 2048,
             temperature: 0,
         });
+        if (!req.body.animal || !req.body.age || !req.body.facts) {
+            return res.status(400).json({ message: "Missing input fields" });
+        }
         const content = response.data.choices[0].text;
-        const title = req.body.title;
+        const title = `The ${req.body.animal}`;
         const user_id = req.body.user_id;
-        const chapter = new chapter_1.default({ user_id, title, content });
+        const chapter = new chapter_1.default({ user_id, title });
+        const chapter_id = chapter._id.toString();
         try {
             yield chapter.save();
+            yield chapter_1.default.findOneAndUpdate({ _id: chapter_id }, { $addToSet: { content: content } });
             res.status(200).json({ message: "OK" });
         }
         catch (err) {
@@ -55,38 +60,20 @@ const ChaptersController = {
         }
     }),
     UpdateChapter: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (req.body.content) {
-            const openai = connectToAPI();
-            const response = yield openai.createCompletion({
-                model: "text-davinci-003",
-                prompt: `Continue writing this chapter: ${req.body.content}`,
-                max_tokens: 2048,
-                temperature: 0,
-            });
-            const content = response.data.choices[0].text;
-            try {
-                yield chapter_1.default.updateOne({ _id: req.get("chapter_id") }, { $addToSet: { content: content } });
-                res.status(200).json({ message: "UPDATED" });
-            }
-            catch (error) {
-                res.status(400).json({ message: "Chapter not updated" });
-            }
+        const openai = connectToAPI();
+        const response = yield openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: `Continue writing this chapter: ${req.body.content}`,
+            max_tokens: 2048,
+            temperature: 0,
+        });
+        const content = response.data.choices[0].text;
+        try {
+            yield chapter_1.default.updateOne({ _id: req.get("chapter_id") }, { $addToSet: { content: content } });
+            res.status(200).json({ message: "UPDATED" });
         }
-        else if (req.body.image) {
-            const openai = connectToAPI();
-            const response = yield openai.createImage({
-                prompt: `${req.body.image}`,
-                n: 1,
-                size: "1024x1024",
-            });
-            const image_url = response.data.data[0].url;
-            try {
-                yield chapter_1.default.updateOne({ _id: req.get("chapter_id") }, { $addToSet: { content: content } });
-                res.status(200).json({ message: "UPDATED" });
-            }
-            catch (error) {
-                res.status(400).json({ message: "Chapter not updated" });
-            }
+        catch (error) {
+            res.status(400).json({ message: "Chapter not updated" });
         }
     }),
 };

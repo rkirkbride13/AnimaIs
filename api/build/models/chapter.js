@@ -28,7 +28,6 @@ const ChapterSchema = new mongoose_1.Schema({
     user_id: { type: String, required: true },
     title: { type: String, required: true },
     content: { type: Array, default: [] },
-    image: { type: Object },
 });
 const Chapter = mongoose_1.default.model("Chapter", ChapterSchema);
 exports.default = Chapter;

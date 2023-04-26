@@ -52,13 +52,15 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             expect(res.status).toEqual(200);
             expect(res.body).toEqual({ message: "OK" });
             const chapters = yield chapter_1.default.find();
             expect(chapters).toHaveLength(1);
-            expect(chapters[0].title).toBe("Chapter 1");
+            expect(chapters[0].title).toBe("The Cat");
             expect(chapters[0].content).toEqual([mockResponse.data.choices[0].text]);
         }));
         it("should return status 400 with invalid input", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -71,10 +73,10 @@ describe("ChaptersController", () => {
             let token = yield token_1.default.jsonwebtoken(user.id);
             const res = yield (0, supertest_1.default)(app_1.app)
                 .post("/chapters")
-                .send({ user_id: "user123" })
+                .send({ age: "5", facts: "3" })
                 .set("Authorization", `Bearer ${token}`);
             expect(res.status).toEqual(400);
-            expect(res.body).toEqual({ message: "Chapter not created" });
+            expect(res.body).toEqual({ message: "Missing input fields" });
             const chapters = yield chapter_1.default.find();
             expect(chapters).toHaveLength(0);
         }));
@@ -93,14 +95,16 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             let res = yield (0, supertest_1.default)(app_1.app)
                 .get("/chapters")
                 .set("Authorization", `Bearer ${token}`)
                 .send();
             expect(res.status).toEqual(200);
-            expect(res.body.chapters[0].title).toEqual("Chapter 1");
+            expect(res.body.chapters[0].title).toEqual("The Cat");
         }));
         it("should return status 400 if token not found", () => __awaiter(void 0, void 0, void 0, function* () {
             let user = new user_1.default({
@@ -115,7 +119,9 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             let response = yield (0, supertest_1.default)(app_1.app).get("/chapters").send();
             expect(response.status).toEqual(400);
@@ -135,7 +141,9 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             let chapters = yield chapter_1.default.find();
             expect(chapters.length).toEqual(1);
@@ -162,7 +170,9 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             let response = yield (0, supertest_1.default)(app_1.app).delete("/chapters").send();
             expect(response.status).toEqual(400);
@@ -226,7 +236,9 @@ describe("ChaptersController", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send({
                 user_id: "user123",
-                title: "Chapter 1",
+                animal: "Cat",
+                age: "5",
+                facts: "3",
             });
             let response = yield (0, supertest_1.default)(app_1.app).patch("/chapters").send();
             expect(response.status).toEqual(400);

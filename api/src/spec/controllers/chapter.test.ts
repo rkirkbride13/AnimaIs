@@ -43,7 +43,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
 
       expect(res.status).toEqual(200);
@@ -51,7 +53,7 @@ describe("ChaptersController", () => {
 
       const chapters = await Chapter.find();
       expect(chapters).toHaveLength(1);
-      expect(chapters[0].title).toBe("Chapter 1");
+      expect(chapters[0].title).toBe("The Cat");
       expect(chapters[0].content).toEqual([mockResponse.data.choices[0].text]);
     });
 
@@ -66,11 +68,11 @@ describe("ChaptersController", () => {
 
       const res = await request(app)
         .post("/chapters")
-        .send({ user_id: "user123" })
+        .send({ age: "5", facts: "3" })
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toEqual(400);
-      expect(res.body).toEqual({ message: "Chapter not created" });
+      expect(res.body).toEqual({ message: "Missing input fields" });
       const chapters = await Chapter.find();
       expect(chapters).toHaveLength(0);
     });
@@ -91,7 +93,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
 
       let res = await request(app)
@@ -100,7 +104,7 @@ describe("ChaptersController", () => {
         .send();
 
       expect(res.status).toEqual(200);
-      expect(res.body.chapters[0].title).toEqual("Chapter 1");
+      expect(res.body.chapters[0].title).toEqual("The Cat");
     });
 
     it("should return status 400 if token not found", async () => {
@@ -116,7 +120,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
 
       let response = await request(app).get("/chapters").send();
@@ -138,7 +144,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
       let chapters = await Chapter.find();
       expect(chapters.length).toEqual(1);
@@ -168,7 +176,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
 
       let response = await request(app).delete("/chapters").send();
@@ -239,7 +249,9 @@ describe("ChaptersController", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           user_id: "user123",
-          title: "Chapter 1",
+          animal: "Cat",
+          age: "5",
+          facts: "3",
         });
 
       let response = await request(app).patch("/chapters").send();

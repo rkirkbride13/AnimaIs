@@ -6,19 +6,26 @@ const ChaptersController = {
     const openai = connectToAPI();
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Write content for a book chapter titled "${req.body.title}"`,
+      prompt: `Write content for a book chapter titled "The ${req.body.animal}". The book is aimed at ${req.body.age} year old children. Include a list of ${req.body.facts} facts.`,
       max_tokens: 2048,
       temperature: 0,
     });
+    if (!req.body.animal || !req.body.age || !req.body.facts) {
+      return res.status(400).json({ message: "Missing input fields" });
+    }
 
     const content: string = response.data.choices[0].text;
-    const title: string = req.body.title;
+    const title: string = `The ${req.body.animal}`;
     const user_id: string = req.body.user_id;
 
-    const chapter: IChapter = new Chapter({ user_id, title, content });
-
+    const chapter: IChapter = new Chapter({ user_id, title });
+    const chapter_id = chapter._id.toString();
     try {
       await chapter.save();
+      await Chapter.findOneAndUpdate(
+        { _id: chapter_id },
+        { $addToSet: { content: content } }
+      );
       res.status(200).json({ message: "OK" });
     } catch (err) {
       console.error(err);

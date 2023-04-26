@@ -1,17 +1,15 @@
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IChapter extends Document {
   user_id: string;
   title: string;
   content: Array<string>;
-  image: object;
 }
 
 const ChapterSchema: Schema = new Schema({
-  user_id: { type: String, required: true} ,
+  user_id: { type: String, required: true },
   title: { type: String, required: true },
   content: { type: Array, default: [] },
-  image: { type: Object },
 });
 
 const Chapter = mongoose.model<IChapter>("Chapter", ChapterSchema);

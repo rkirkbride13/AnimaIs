@@ -10,7 +10,6 @@ describe("Chapter", () => {
       user_id: "640336eb9e363bc491c41921",
       title: "The Dog",
       content: ["The dog is humankinds best friend"],
-      image: {},
     });
   });
 
