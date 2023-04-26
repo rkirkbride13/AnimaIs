@@ -60,6 +60,7 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
           navigate={navigate}
           setChapters={setChapters}
           token={token}
+          loading={loading}
           setLoading={setLoading}
         />
         <div className="mx-20">
@@ -69,7 +70,6 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
               chapter={chapter}
               token={token}
               setChapters={setChapters}
-              loading={loading}
             />
           ))}
         </div>

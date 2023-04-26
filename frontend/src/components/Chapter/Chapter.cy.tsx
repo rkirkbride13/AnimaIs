@@ -15,7 +15,6 @@ describe("Chapter", () => {
         chapter={chapter}
         token={"tokenMock"}
         setChapters={setChaptersMock}
-        loading={false}
       />
     );
 
@@ -36,7 +35,6 @@ describe("Chapter", () => {
         chapter={chapter}
         token={"tokenMock"}
         setChapters={setChaptersMock}
-        loading={false}
       />
     );
     cy.intercept("DELETE", "chapters", { message: "DELETED" }).as(

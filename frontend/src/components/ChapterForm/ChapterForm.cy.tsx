@@ -11,6 +11,7 @@ describe("Chapter Form", () => {
         navigate={navigate}
         token={"tokenMock"}
         setChapters={setChaptersMock}
+        loading={false}
         setLoading={setLoadingMock}
       />
     );
