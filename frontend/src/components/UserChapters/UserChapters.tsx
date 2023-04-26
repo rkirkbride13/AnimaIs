@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer, ChangeEvent } from "react";
 import { NavigateFunction } from "react-router";
 import serverURL from "../../serverURL";
 import ChapterForm from "../ChapterForm/ChapterForm";
 import Chapter from "../Chapter/Chapter";
+import NavBar from "../navbar/navbar";
 
 interface ChaptersInt {
   navigate: NavigateFunction;
@@ -12,6 +13,26 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
   const [chapters, setChapters] = useState<Array<any>>([]);
   const [token] = useState<string | null>(window.localStorage.getItem("token"));
   const [loading, setLoading] = useState<boolean>(false);
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  const navbarLinks = () => {
+    if (!token) {
+      return [{ href: "/", text: "Login", handleClick: () => {} }];
+    } else {
+      return [
+        {
+          href: "/",
+          text: "Logout",
+          handleClick: (e: ChangeEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            window.localStorage.removeItem("token");
+            forceUpdate();
+            navigate("/");
+          },
+        },
+      ];
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -31,7 +52,10 @@ const UserChapters = ({ navigate }: ChaptersInt) => {
 
   return (
     <>
-      <div>
+      <nav>
+        <NavBar links={navbarLinks()} />
+      </nav>
+      <div className="mt-10">
         <ChapterForm
           navigate={navigate}
           setChapters={setChapters}
