@@ -17,7 +17,9 @@ describe("Chapter Form", () => {
 
     cy.intercept("POST", "/chapters", { message: "OK" }).as("saveChapter");
 
-    cy.get('[data-cy="title"]').type("The Dog");
+    cy.get('[data-cy="animal"]').type("Dog");
+    cy.get('[data-cy="age"]').type("5");
+    cy.get('[data-cy="facts"]').type("3");
     cy.get('[data-cy="submit-chapter"]').click();
 
     cy.wait("@saveChapter").then((interception) => {
